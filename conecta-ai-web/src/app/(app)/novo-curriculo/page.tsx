@@ -2,8 +2,12 @@
 
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
-import { FormControl, FormLabel } from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import * as z from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '../../components/ui/button';
 
 interface ContactInformation {
   firstName: string;
@@ -31,7 +35,30 @@ interface Skills {
   levelOfProficiency: string;
 }
 
+const formSchema = z.object({
+  firstName: z.string().min(2, {
+    message: 'First name must be at least 2 characters.',
+  }),
+  lastName: z.string().min(2, {
+    message: 'Last name must be at least 2 characters.',
+  }),
+  email: z.string().email({
+    message: 'Invalid email address.',
+  }),
+  phone: z.string().min(10, {
+    message: 'Phone number must be at least 10 characters.',
+  }),
+});
+
 const ResumeGeneratorForm = () => {
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSubmit = async (data: unknown) => {
+    // Handle form submission
+  };
+
   const [contactInformation, setContactInformation] = useState<ContactInformation>({
     firstName: '',
     lastName: '',
@@ -129,53 +156,68 @@ const ResumeGeneratorForm = () => {
   const handleGenerateResume = () => {
     // TO DO: generate resume based on form data
   };
-
   return (
-    <div className='max-w-md mx-auto p-4'>
-      <h2 className='text-lg font-bold mb-4'>Resume Generator</h2>
-      <Card>
-        {workExperience.map((experience, index) => (
-          <div key={index}>
-            <FormControl>
-              <FormLabel>Job Title:</FormLabel>
-              <Input
-                type='text'
-                name='jobTitle'
-                value={experience.jobTitle}
-                onChange={(event) => handleWorkExperienceChange(index, event)}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Company Name:</FormLabel>
-              <Input
-                type='text'
-                name='companyName'
-                value={experience.companyName}
-                onChange={(event) => handleWorkExperienceChange(index, event)}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Dates of Employment:</FormLabel>
-              <Input
-                type='text'
-                name='datesOfEmployment'
-                value={experience.datesOfEmployment}
-                onChange={(event) => handleWorkExperienceChange(index, event)}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel>Brief Description:</FormLabel>
-              <Input
-                type='text'
-                name='briefDescription'
-                value={experience.briefDescription}
-                onChange={(event) => handleWorkExperienceChange(index, event)}
-              />
-            </FormControl>
-          </div>
-        ))}
-      </Card>
-    </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+        <FormField
+          control={form.control}
+          name='firstName'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+              <FormControl>
+                <Input placeholder='John' {...field} />
+              </FormControl>
+              <FormDescription>This is your first name.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='lastName'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+              <FormControl>
+                <Input placeholder='Doe' {...field} />
+              </FormControl>
+              <FormDescription>This is your last name.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='email'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder='john.doe@example.com' {...field} />
+              </FormControl>
+              <FormDescription>This is your email address.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='phone'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone</FormLabel>
+              <FormControl>
+                <Input placeholder='(123) 456-7890' {...field} />
+              </FormControl>
+              <FormDescription>This is your phone number.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type='submit'>Submit</Button>
+      </form>
+    </Form>
   );
 };
 
