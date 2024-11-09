@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
 
 interface ContactInformation {
   firstName: string;
