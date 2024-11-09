@@ -1,1 +1,3 @@
-# Llama-Impact-Hackathon-Brazil
+# Llama-Impact-Hackathon-Brazil: Statum tech team
+
+# Conecta.ai
