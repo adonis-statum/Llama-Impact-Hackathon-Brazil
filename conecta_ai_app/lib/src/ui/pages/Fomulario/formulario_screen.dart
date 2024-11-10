@@ -217,16 +217,16 @@ class _FormularioScreenState extends State<FormularioScreen> {
                               ),
                             ),
                           ),
-                          // const SizedBox(height: 20),
-                          // Expanded(
-                          //   child: SingleChildScrollView(
-                          //     child: Text(
-                          //       response,
-                          //       style: const TextStyle(
-                          //           fontSize: 16, fontFamily: 'monospace'),
-                          //     ),
-                          //   ),
-                          // ),
+                          const SizedBox(height: 20),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Text(
+                                response,
+                                style: const TextStyle(
+                                    fontSize: 16, fontFamily: 'monospace'),
+                              ),
+                            ),
+                          ),
                         ],
                       )
                     : Column(
