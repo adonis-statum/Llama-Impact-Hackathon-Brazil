@@ -1,8 +1,6 @@
 # Llama-Impact-Hackathon-Brazil
 
-# Team name: Statum
-
-# Conecta.ai
+# Team name: Conecta.ai - Statum
 
 **[pt-br]** Nossa proposta visa automatizar a criação de currículos profissionais, com foco principal em países do Sul-global, como o Brasil e outros. Temos um contato profissional em Angola que nos apoiará na implantação do projeto nesse país. Ele nos trouxe um insight valioso sobre a grande necessidade de conexões entre profissionais e vagas de trabalho, além da dificuldade que as pessoas enfrentam ao criar currículos. Isso reforçou nossa vontade de implementar essa ideia. Com a ajuda da Llama AI, o usuário não precisa saber quais informações são necessárias para criar um currículo. A inteligência artificial irá auxiliar o usuário a inserir as informações necessárias, tornando o processo mais acessível. Nosso objetivo é democratizar o acesso ao mercado de trabalho, fornecendo currículos gerados pela Llama AI através da nossa solução.
 
