@@ -34,7 +34,7 @@
 ```plaintext
 ├── frontend           # Frontend web - Next.js 
 ├── mobile             # Aplicação mobile / mobile application - Flutter(Dart)
-└── banco de dados     # PostgreSQL hospedado no ambiente OCI / PostgreSQL hosted by OCI
+└── database           # PostgreSQL hospedado no ambiente OCI / PostgreSQL hosted by OCI
 ```
 
 ## 💻 Telas da Aplicação Web
