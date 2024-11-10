@@ -19,12 +19,12 @@ class _FormularioScreenState extends State<FormularioScreen> {
   @override
   void initState() {
     super.initState();
-    generateResume(); // Inicia a primeira requisição ao carregar a tela
+    generateResume("Inicio"); // Inicia a primeira requisição ao carregar a tela
   }
 
   // Função para iniciar a requisição e processar os dados recebidos
-  void generateResume() {
-    _apiService.sendChatCompletionRequest("Iniciar", (String content) {
+  void generateResume(String messageContent) {
+    _apiService.sendChatCompletionRequest(messageContent, (String content) {
       final parts = content.split('|');
       if (parts.length > 1) {
         setState(() {
@@ -61,7 +61,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
 
       // Limpa o campo de resposta e realiza a próxima requisição com o novo contexto
       _respostaController.clear();
-      generateResume();
+      generateResume(messageContent);
     }
   }
 
@@ -76,38 +76,19 @@ class _FormularioScreenState extends State<FormularioScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (pergunta.isNotEmpty)
-              Text(
-                pergunta,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Text(pergunta, style: const TextStyle(fontSize: 18)),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _respostaController,
+              decoration: InputDecoration(
+                hintText: hintText,
+                border: OutlineInputBorder(),
               ),
-            const SizedBox(height: 10),
-            if (hintText.isNotEmpty)
-              TextField(
-                controller: _respostaController,
-                decoration: InputDecoration(
-                  labelText: 'Sua Resposta',
-                  hintText: hintText,
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-            const SizedBox(height: 20),
-            if (hintText.isNotEmpty)
-              ElevatedButton(
-                onPressed: proximaPergunta,
-                child: const Text("Próximo"),
-              ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Text(
-                  jsonEncode({
-                    "Contexto": "Abaixo temos as perguntas e respostas até agora. Qual será a próxima pergunta?",
-                    "perguntasRespostas": perguntasRespostas,
-                  }),
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: proximaPergunta,
+              child: const Text('Próximo'),
             ),
           ],
         ),
