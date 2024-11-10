@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:conecta_ai_app/src/service/api_service.dart';
+import 'package:conecta_ai_app/src/ui/components/custom_colors.dart';
 import 'package:flutter/material.dart';
 
 class FormularioScreen extends StatefulWidget {
@@ -17,7 +18,12 @@ class _FormularioScreenState extends State<FormularioScreen> {
       []; // Lista de perguntas e respostas
   String pergunta = "";
   String hintText = "";
+  String response = "";
+  String mensagemFinal = "";
+  String resumo = "";
+  String mensagemConfirmacao = "";
   bool isLoading = true;
+  bool emAndamento = true;
 
   @override
   void initState() {
@@ -42,6 +48,11 @@ class _FormularioScreenState extends State<FormularioScreen> {
             final Map<String, dynamic> jsonData = json.decode(jsonPart);
             pergunta = jsonData['proximaPergunta'] ?? pergunta;
             hintText = jsonData['exemploResposta'] ?? "";
+            response = jsonPart;
+            emAndamento = jsonData['emAndamento'] ?? "";
+            mensagemFinal = jsonData['mensagemFinal'] ?? "";
+            resumo = jsonData['resumo'] ?? "";
+            mensagemConfirmacao = jsonData['mensagemConfirmacao'] ?? "";
           } catch (e) {
             log("Erro ao processar JSON: $e");
           } finally {
@@ -67,6 +78,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
       });
 
       _respostaController.clear();
+      log(generateResume(messageContent).toString());
       generateResume(messageContent);
     }
   }
@@ -93,6 +105,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
     buffer.write('  ]\n');
     buffer.write("}");
 
+    log(buffer.toString());
     return buffer.toString();
   }
 
@@ -100,43 +113,175 @@ class _FormularioScreenState extends State<FormularioScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Formulário'),
+        iconTheme: const IconThemeData(color: Cor.white, size: 28),
+        title: const Text('Formulário', style: TextStyle(color: Cor.white)),
+        backgroundColor: Cor.darkBlue,
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(pergunta,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold)),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _respostaController,
-                    decoration: InputDecoration(
-                      hintText: hintText,
-                      border: const OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: proximaPergunta,
-                    child: const Text('Próximo'),
-                  ),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Text(
-                        formatPerguntasRespostas(),
-                        style: const TextStyle(
-                            fontSize: 16, fontFamily: 'monospace'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Cor.hardBlue, // Cor inicial do gradiente
+              Cor.lightBlue, // Cor final do gradiente
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : emAndamento
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            elevation: 6,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Cor.darkBlue,
+                                    Cor.hardBlue,
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    pergunta,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  TextField(
+                                    controller: _respostaController,
+                                    decoration: InputDecoration(
+                                      hintText: hintText,
+                                      hintStyle: const TextStyle(
+                                          color: Colors.white70),
+                                      filled: true,
+                                      fillColor: Colors.white12,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: const BorderSide(
+                                            color: Colors.white70, width: 2),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      contentPadding: const EdgeInsets.all(16),
+                                    ),
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20),
+                                      child: ElevatedButton(
+                                        onPressed: proximaPergunta,
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.white24,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 12, horizontal: 20),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                        ),
+                                        child: const Text(
+                                          'Próximo',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          // const SizedBox(height: 20),
+                          // Expanded(
+                          //   child: SingleChildScrollView(
+                          //     child: Text(
+                          //       response,
+                          //       style: const TextStyle(
+                          //           fontSize: 16, fontFamily: 'monospace'),
+                          //     ),
+                          //   ),
+                          // ),
+                        ],
+                      )
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            mensagemFinal,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            mensagemConfirmacao,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Abaixo temos as perguntas e respostas até agora:',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white70,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Text(
+                                    formatPerguntasRespostas(),
+                                    style: const TextStyle(
+                                        fontSize: 16, fontFamily: 'monospace'),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    resumo,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      )),
       ),
     );
   }
