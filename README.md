@@ -34,4 +34,4 @@
 
 ## 🧑‍💻 Desenvolvedores
 
-Adonis Vinuto, Jhonatas Moreira, Ryan Alves e Juliano Silva
+Adonis Vinuto, Jhonatas Teixeira, Ryan Alves e Juliano Silva
