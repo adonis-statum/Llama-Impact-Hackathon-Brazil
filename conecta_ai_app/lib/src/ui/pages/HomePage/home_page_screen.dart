@@ -17,7 +17,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Cor.white, size: 28),
         title: const Text(
-          'Conecta AI',
+          'Conecta Ai',
           style: TextStyle(color: Cor.white),
         ),
         backgroundColor: Cor.darkBlue,
