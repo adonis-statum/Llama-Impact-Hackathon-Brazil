@@ -14,7 +14,7 @@ Próxima Pergunta: "Poderia me dizer qual o seu endereço completo?" |
     "emAndamento": true,
     "foiRespondido": true,
     "proximaPergunta": "Poderia me dizer qual o seu endereço completo?",
-    "exemploResposta": "Rua Bolívia, 374, São Paulo, SP"
+    "exemploResposta": "Rua Bolívia, 358 - Minas Gerais 37900-474"
 }
 2. Quando a resposta foi reprovada:
 Mensagem de Correção:
@@ -23,7 +23,7 @@ Mensagem de Correção:
     "emAndamento": true,
     "foiRespondido": false,
     "proximaPergunta": "Seu endereço está sem o número da residência, o que deixa o endereço incompleto. Poderia incluir o número e enviar novamente?",
-    "exemploResposta": "Rua Bolívia, 374, São Paulo, SP"
+    "exemploResposta": "Rua Bolívia, 358 - Minas Gerais 37900-474"
 }
  
 3. Quando o formulário estiver concluído:
@@ -34,37 +34,32 @@ Após coletar as respostas essenciais, o formulário gera uma mensagem final de 
     "mensagemFinal": "Obrigado por preencher! Seu currículo está pronto!",
     "perguntas": [
         {
-            "pergunta": "Qual é o seu nome completo?",
-            "exemploResposta": "João Silva Santos",
-            "resposta": "João Silva Santos"
+            "pergunta": "Qual é o seu nome completo? Também poderia informar sua idade e seu genero?",
+            "exemploResposta": "João Silva Santos, 28, masculino",
+            "resposta": "João Silva Santos, 78 e não quero informar"
         },
         {
-            "pergunta": "Qual é o seu e-mail de contato?",
-            "exemploResposta": "joao.silva@email.com",
-            "resposta": "joao.silva@email.com"
+            "pergunta": "Qual é o seu e-mail de contato? E o seu telefone?",
+            "exemploResposta": "joao.silva@email.com e (11) 91234-5678",
+            "resposta": "joao.silva@email.com, 11 91234-5678"
         },
         {
-            "pergunta": "Qual é o seu telefone para contato?",
-            "exemploResposta": "(11) 91234-5678",
-            "resposta": "(11) 91234-5678"
-        },
-        {
-            "pergunta": "Onde você está localizado? (Cidade e Estado)",
-            "exemploResposta": "São Paulo, SP",
-            "resposta": "São Paulo, SP"
-        },
-        {
-            "pergunta": "Quais são suas principais habilidades?",
-            "exemploResposta": "Desenvolvimento Web, Comunicação Interpessoal, Trabalho em Equipe.",
-            "resposta": "Desenvolvimento Web, Comunicação Interpessoal, Trabalho em Equipe."
+            "pergunta": "Poderia me dizer qual o seu endereço completo?" 
+            "exemploResposta": "Rua Bolívia, 358 - Minas Gerais 37900-474",
+            "resposta": "Rua Bolívia, 358 - Minas Gerais 37900-474"
         },
         {
             "pergunta": "Qual foi o seu último cargo?",
-            "exemploResposta": "Desenvolvedor Front-End na XYZ Tecnologia",
-            "resposta": "Desenvolvedor Front-End na XYZ Tecnologia"
+            "exemploResposta": "Motorista de onibus",
+            "resposta": "Costureiro"
+        },
+        {
+            "pergunta": "Quais são suas principais habilidades?",
+            "exemploResposta": "Tenho ótima comunicação",
+            "resposta": "Trabalho em equipe"
         }
     ],
-    "resumo": "Nome: João Silva Santos\nE-mail: joao.silva@email.com\nTelefone: (11) 91234-5678\nLocalização: São Paulo, SP\nHabilidades: Desenvolvimento Web, Comunicação Interpessoal, Trabalho em Equipe\nÚltimo Cargo: Desenvolvedor Front-End na XYZ Tecnologia",
+    "resumo": "Nome: João Silva ...",
     "mensagemConfirmacao": "Revise os dados fornecidos e confirme se todas as informações estão corretas. Seu currículo está pronto para uso!"
 }
  
@@ -92,32 +87,18 @@ Cada vez que uma nova pergunta é gerada, o contexto atualizado deve ser enviado
 }
  
  
-Exemplos de Perguntas para um Currículo Completo:
+Exemplos de Perguntas para um Currículo Completo, mas ecolha conforme necessário:
 Informações Pessoais:
  
 Nome completo
 E-mail de contato
 Telefone(s)
-Endereço completo
-LinkedIn ou outro perfil profissional
-Experiência Profissional:
- 
+Endereço
+Experiência Profissional
 Último cargo e empresa
 Principais responsabilidades e realizações
-Outras experiências relevantes
-Formação Acadêmica:
- 
-Nome da instituição
-Grau de formação
-Cursos adicionais ou certificações
-Habilidades e Competências:
- 
-Habilidades técnicas (ex. Desenvolvimento Web, UX/UI Design)
-Competências interpessoais (ex. Comunicação, Liderança)
-Idiomas:
- 
-Idioma e nível de proficiência (ex. Inglês avançado)
-Referências e Expectativas:
- 
+formação
+Habilidades e Competências
+Referências e Expectativas
 Referências profissionais com autorização de contato
 Expectativas salariais e benefícios
