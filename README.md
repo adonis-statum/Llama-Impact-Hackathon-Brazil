@@ -37,10 +37,6 @@
 └── database           # PostgreSQL hospedado no ambiente OCI / PostgreSQL hosted by OCI
 ```
 
-## 💻 Telas da Aplicação Web
-
-## 📱 Telas da Aplicação Mobile
-
 ## 🧑‍💻 Desenvolvedores
 
 Adonis Vinuto, Jhonatas Teixeira, Ryan Alves e Juliano Silva
