@@ -38,7 +38,6 @@ class _FormularioScreenState extends State<FormularioScreen> {
 
     await _apiService.sendChatCompletionRequest(messageContent,
         (String content) {
-      // Agora, 'content' é o JSON completo acumulado
       final parts = content.split('|');
       if (parts.length > 1) {
         setState(() {
@@ -97,9 +96,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
       buffer.write(
           '      "exemploResposta": "${perguntaResposta['exemploResposta']}",\n');
       buffer.write('      "resposta": "${perguntaResposta['resposta']}"\n');
-      buffer.write(i == perguntasRespostas.length - 1
-          ? '    }\n'
-          : '    },\n'); // Condição para não adicionar vírgula no último item
+      buffer.write(i == perguntasRespostas.length - 1 ? '    }\n' : '    },\n');
     }
 
     buffer.write('  ]\n');
@@ -130,123 +127,229 @@ class _FormularioScreenState extends State<FormularioScreen> {
           ),
         ),
         child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : emAndamento
-                    ? Column(
+          padding: const EdgeInsets.all(16.0),
+          child: isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : emAndamento
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 6,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Cor.darkBlue, Cor.hardBlue],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.only(bottom: 8),
+                                  child: Center(
+                                    child: Text(
+                                      'Pergunta',
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  pergunta,
+                                  textAlign: TextAlign.justify,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const SizedBox(height: 16),
+                                TextField(
+                                  controller: _respostaController,
+                                  decoration: InputDecoration(
+                                    hintText: hintText,
+                                    hintStyle:
+                                        const TextStyle(color: Colors.white70),
+                                    filled: true,
+                                    fillColor: Colors.white12,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.white70, width: 2),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    contentPadding: const EdgeInsets.all(16),
+                                  ),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                const SizedBox(height: 16),
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: ElevatedButton(
+                                      onPressed: proximaPergunta,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white24,
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 12, horizontal: 20),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                      ),
+                                      child: const Text(
+                                        'Próximo',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              elevation: 6,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Cor.darkBlue, Cor.hardBlue],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 16),
+                                    const Center(
+                                      child: Text(
+                                        'Retorno Agente CodeGPT',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      response,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: 'monospace',
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : SingleChildScrollView(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Card(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            elevation: 6,
                             child: Container(
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
-                                  colors: [
-                                    Cor.darkBlue,
-                                    Cor.hardBlue,
-                                  ],
+                                  colors: [Cor.darkBlue, Cor.hardBlue],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              padding: const EdgeInsets.all(16.0),
+                              padding: const EdgeInsets.all(16),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    pergunta,
-                                    style: const TextStyle(
+                                  const Text(
+                                    'Mensagem Final',
+                                    style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white,
                                     ),
                                   ),
                                   const SizedBox(height: 16),
-                                  TextField(
-                                    controller: _respostaController,
-                                    decoration: InputDecoration(
-                                      hintText: hintText,
-                                      hintStyle: const TextStyle(
-                                          color: Colors.white70),
-                                      filled: true,
-                                      fillColor: Colors.white12,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: const BorderSide(
-                                            color: Colors.white70, width: 2),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      contentPadding: const EdgeInsets.all(16),
-                                    ),
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(20),
-                                      child: ElevatedButton(
-                                        onPressed: proximaPergunta,
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.white24,
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 12, horizontal: 20),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                        ),
-                                        child: const Text(
-                                          'Próximo',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ),
+                                  Text(
+                                    mensagemFinal,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Text(
-                                response,
-                                style: const TextStyle(
-                                    fontSize: 16, fontFamily: 'monospace'),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            mensagemFinal,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
                           const SizedBox(height: 16),
-                          Text(
-                            mensagemConfirmacao,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [Cor.darkBlue, Cor.hardBlue],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                children: [
+                                  const Text(
+                                    'Mensagem de Confirmação',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  Text(
+                                    mensagemConfirmacao,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -258,14 +361,47 @@ class _FormularioScreenState extends State<FormularioScreen> {
                             ),
                           ),
                           const SizedBox(height: 16),
-                          Expanded(
-                            child: SingleChildScrollView(
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: const LinearGradient(
+                                  colors: [Cor.darkBlue, Cor.hardBlue],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              padding: const EdgeInsets.all(16),
                               child: Column(
                                 children: [
+                                  const Text(
+                                    'Perguntas e Respostas',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
                                   Text(
                                     formatPerguntasRespostas(),
                                     style: const TextStyle(
-                                        fontSize: 16, fontFamily: 'monospace'),
+                                      fontSize: 16,
+                                      fontFamily: 'monospace',
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 16),
+                                  const Text(
+                                    'Resumo',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   const SizedBox(height: 16),
                                   Text(
@@ -275,13 +411,14 @@ class _FormularioScreenState extends State<FormularioScreen> {
                                       color: Colors.white70,
                                     ),
                                   ),
-                                  const SizedBox(height: 16),
                                 ],
                               ),
                             ),
                           ),
                         ],
-                      )),
+                      ),
+                    ),
+        ),
       ),
     );
   }
