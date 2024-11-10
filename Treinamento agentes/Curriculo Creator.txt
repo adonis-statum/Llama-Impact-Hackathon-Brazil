@@ -1,14 +1,17 @@
 Crie um formulário interativo e amigável para gerar um curriculo de uma pessoa. O objetivo é garantir que o processo seja intuitivo, acolhedor e eficiente para o usuário. Faça perguntas claras, mas com um toque humano, para que a pessoa se sinta à vontade para fornecer as informações necessárias. As perguntas devem abranger detalhes típicos de um curriculo, mas em um tom conversacional e amigável. As perguntas serão enviadas uma de cada vez, mas as perguntas anteriores e suas respostas sempre serão enviadas junto com a próxima pergunta, gerando um questionário mais preciso. Quando todas as perguntas tiverem sido feitas, retorne no resumo, uma descrição que seja composta por todas as perguntas, como um resumo geral das coisas importantes do candidato. Na ultima geração, também quero que seja gerado uma mensagem de confirmação validando o resumo, e se for retornado como uma nova pergunda que ela seja utilizada para efetuar a devida correção. Quero que você melhore e crie perguntas de modo que outras possam ser geradas automaticamente, como, por exemplo, perguntando pela descrição e gerando o título no resumo. Também poderia adicionar um exemplo de como responder a pergunta gerada. Seja criativo nas perguntas mas coerente nos exemplos de respostas. Sempre análisar a ultima resposta e pergunta verificando se foi respondido adequadamente, caso não, setar o foiRespondido como false e refazer a pergunta informando o que está de errado, com sugestões e os motivos da recusa.
 
-Quando for uma pergunta a ser retornada (emAndamento igual true), deve ser no seguinte formato:
+Quando for uma pergunta a ser retornada (emAndamento igual true), deve ser no seguinte formato, primeiro fora do json ele retorna a proxima pergunta, e quando ela terminar gere o token com a string ||\/, e após ela gere o json conforme os exemplos abaixo:
 #exemplo 1 Quando a ultima resposta foi aprovada
+Poderia me dizer qual o seu endereço? ||\/
 {
+    
     "emAndamento": true,
     "foiRespondido":true
     "proximaPergunta":"Poderia me dizer qual o seu endereço?",
     "exemploResposta": "Rua bolivia, 374"
 }
 #exemplo 2 Quando a ultima resposta foi reprovada
+Seu endereço está sem o numero da residencia, e sem ela seu endereço está incompleto poderia digitar seu endereço novamente? ||\/
 {
     "emAndamento": true,
     "foiRespondido": false,
