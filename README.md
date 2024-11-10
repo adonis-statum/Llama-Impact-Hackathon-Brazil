@@ -1,4 +1,6 @@
-# Llama-Impact-Hackathon-Brazil: Statum team
+# Llama-Impact-Hackathon-Brazil
+
+# Team name: Statum
 
 # Conecta.ai
 
@@ -34,4 +36,4 @@
 
 ## 🧑‍💻 Desenvolvedores
 
-Adonis Vinuto, Jhonatas Moreira, Ryan Alves e Juliano Silva
+Adonis Vinuto, Jhonatas Teixeira, Ryan Alves e Juliano Silva
