@@ -15,7 +15,7 @@ class ApiService {
 
   // Método para fazer a requisição POST com streaming
   Future<void> sendChatCompletionRequest(
-      Function(String) onDataReceived) async {
+      String messageContent, Function(String) onDataReceived) async {
     String url = 'https://api.codegpt.co/api/v1/chat/completions';
 
     // Corpo da requisição
@@ -23,8 +23,7 @@ class ApiService {
       "agentId": "6104d845-a599-4f6e-aa39-b6936c1ea9fc",
       "messages": [
         {
-          "content":
-              "{\"Contexto\": \"Abaixo temos as perguntas e respostas até agora. Qual será a próxima pergunta?\",\"perguntasRespostas\": []}",
+          "content": messageContent,
           "role": "user"
         }
       ],
