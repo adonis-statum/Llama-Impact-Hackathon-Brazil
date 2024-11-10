@@ -23,11 +23,11 @@ Após a verificação, converta as informações para o formato JSON conforme o 
     "name": "João da Silva",
     "email": "joao.silva@example.com",
     "phone": "+55 11 91234-5678",
-    "address": {
+    "location": {
       "street": "Rua Exemplo, 123",
       "city": "São Paulo",
       "state": "SP",
-      "cep_code": "Não consegui obter essa informação com base nos dados enviados",
+      "zip_code": "Não consegui obter essa informação com base nos dados enviados",
       "country": "Brasil"
     },
   },
