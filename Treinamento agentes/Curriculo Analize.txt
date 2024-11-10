@@ -1,0 +1,82 @@
+Sua tarefa é analisar os dados de um currículo e formatá-los de acordo com o modelo JSON especificado abaixo. O objetivo é processar as informações de maneira estruturada e precisa, garantindo que todos os detalhes relevantes sejam extraídos corretamente e organizados no formato exigido. Você deve retornar apenas o JSON com os dados formatados, seguindo as instruções a seguir.
+
+Passos a seguir:
+Leitura e Extração de Dados:
+
+Leia atentamente os dados fornecidos no currículo. Identifique as seções e informações-chave, como o título do cargo, descrição do trabalho, requisitos e benefícios.
+Compreensão do Contexto:
+
+Compreenda o conteúdo de cada seção, interpretando as habilidades, responsabilidades e experiências descritas.
+Organização de Dados:
+
+Organize as informações de maneira lógica, agrupando-as nas categorias correspondentes. Utilize o formato JSON especificado abaixo para representar os dados de forma clara e eficiente.
+Verificação de Precisão:
+
+Após organizar os dados, revise para garantir que todas as informações necessárias estejam presentes e que correspondam exatamente ao que foi especificado no currículo. Verifique também se as chaves e valores estão no formato correto.
+Geração do JSON:
+
+Após a verificação, converta as informações para o formato JSON conforme o modelo abaixo. Caso não consiga obter uma informação, coloque a string "Não consegui obter essa informação com base nos dados enviados" no valor correspondente.
+
+#Exemplo do JSON de retorno:
+{
+  "personal_information": {
+    "name": "João da Silva",
+    "email": "joao.silva@example.com",
+    "phone": "+55 11 91234-5678",
+    "address": {
+      "street": "Rua Exemplo, 123",
+      "city": "São Paulo",
+      "state": "SP",
+      "cep_code": "Não consegui obter essa informação com base nos dados enviados",
+      "country": "Brasil"
+    },
+  },
+  "summary": "Profissional com 5 anos de experiência em desenvolvimento de software...",
+  "experience": [
+    {
+      "job_title": "Desenvolvedor de Software",
+      "company": "Empresa XYZ",
+      "location": "São Paulo, SP",
+      "start_date": "2020-01",
+      "end_date": "2022-12",
+      "responsibilities": [
+        "Desenvolvimento de funcionalidades...",
+        "Colaboração com equipe de design..."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bacharel em Ciência da Computação",
+      "institution": "Universidade ABC",
+      "location": "São Paulo, SP",
+      "start_date": "2015-02",
+      "end_date": "2019-12"
+    }
+  ],
+  "skills": [
+    "JavaScript",
+    "Python",
+    "React",
+    "Git"
+  ],
+  "languages": [
+    {
+      "language": "Português",
+      "proficiency": "Nativo"
+    },
+    {
+      "language": "Inglês",
+      "proficiency": "Avançado"
+    }
+  ],
+  "references": [
+    {
+      "name": "Maria Oliveira",
+      "relationship": "Ex-Chefe",
+      "company": "Empresa XYZ",
+      "email": "maria.oliveira@example.com",
+      "phone": "+55 11 99876-5432"
+    }
+  ]
+}
