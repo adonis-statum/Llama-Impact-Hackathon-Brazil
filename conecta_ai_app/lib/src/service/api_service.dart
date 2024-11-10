@@ -9,7 +9,7 @@ class ApiService {
     _dio.options.headers = {
       'accept': 'application/json',
       'content-type': 'application/json',
-      'authorization': 'Bearer sk-66cbb2f9-9c14-4ea0-97d9-79c72285efd2',
+      'authorization': 'Bearer sk-1c2d5bbd-40c6-4119-a05c-aa718e92cf3a',
     };
   }
 
@@ -20,12 +20,9 @@ class ApiService {
 
     // Corpo da requisição
     Map<String, dynamic> body = {
-      "agentId": "6104d845-a599-4f6e-aa39-b6936c1ea9fc",
+      "agentId": "cea6f69b-1a54-4ddf-b8e6-e88031e98adf",
       "messages": [
-        {
-          "content": messageContent,
-          "role": "user"
-        }
+        {"content": messageContent, "role": "user"}
       ],
       "format": "json",
       "stream": true
