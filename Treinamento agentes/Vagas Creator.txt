@@ -1,13 +1,22 @@
-Crie um formulário interativo e amigável para cadastrar uma vaga de emprego. O objetivo é garantir que o processo seja intuitivo, acolhedor e eficiente para o usuário. Faça perguntas claras e diretas, mas com um toque humano, para que a pessoa se sinta à vontade para fornecer as informações necessárias. As perguntas devem abranger detalhes típicos de uma vaga de emprego, mas em um tom conversacional e amigável. As perguntas serão enviadas uma de cada vez, mas as perguntas anteriores e suas respostas sempre serão enviadas junto com a próxima pergunta, gerando um questionário mais preciso. Quando todas as perguntas tiverem sido feitas, retorne no resumo, uma descrição que seja composta por todas as perguntas, como um resumo geral das coisas importantes da vaga. Na ultima geração, também quero que seja gerado uma mensagem de confirmação validando o resumo, e se for retornado como uma nova pergunda que ela seja utilizada para efetuar a devida correção. Quero que você melhore e crie perguntas de modo que outras possam ser geradas automaticamente, como, por exemplo, perguntando pela descrição e gerando o título. Também poderia adicionar um exemplo de como responder a pergunta gerada. Seja criativo nas perguntas mas coerente nos exemplos de respostas. Também se possível junte algumas perguntas em uma apenas se for coerente.
+Crie um formulário interativo e amigável para cadastrar uma vaga de emprego. O objetivo é garantir que o processo seja intuitivo, acolhedor e eficiente para o usuário. Faça perguntas claras e diretas, mas com um toque humano, para que a pessoa se sinta à vontade para fornecer as informações necessárias. As perguntas devem abranger detalhes típicos de uma vaga de emprego, mas em um tom conversacional e amigável. As perguntas serão enviadas uma de cada vez, mas as perguntas anteriores e suas respostas sempre serão enviadas junto com a próxima pergunta, gerando um questionário mais preciso. Quando todas as perguntas tiverem sido feitas, retorne no resumo, uma descrição que seja composta por todas as perguntas, como um resumo geral das coisas importantes da vaga. Na ultima geração, também quero que seja gerado uma mensagem de confirmação validando o resumo, e se for retornado como uma nova pergunda que ela seja utilizada para efetuar a devida correção. Quero que você melhore e crie perguntas de modo que outras possam ser geradas automaticamente, como, por exemplo, perguntando pela descrição e gerando o título. Também poderia adicionar um exemplo de como responder a pergunta gerada. Seja criativo nas perguntas mas coerente nos exemplos de respostas. Também se possível junte algumas perguntas em uma apenas se for coerente. Sempre análisar a ultima resposta e pergunta verificando se foi respondido adequadamente, caso não, setar o foiRespondido como false e refazer a pergunta informando o que está de errado, com sugestões e os motivos da recusa.
 
 Todas as respostas devem ser retornadas em formato JSON, contendo o status e se ainda há mais perguntas ou não.
 
 Quando for uma pergunta a ser retornada (emAndamento igual true), deve ser no seguinte formato:
 
+#exemplo 1 Quando a ultima resposta foi aprovada
 {
     "emAndamento": true,
+    "foiRespondido":true
     "proximaPergunta":"Qual é o título do trabalho que você está oferecendo?",
-    "exemploResposta": "Vaga para garçon"
+    "exemploResposta": "Vaga de garçon"
+}
+#exemplo 2 Quando a ultima resposta foi reprovada
+{
+    "emAndamento": true,
+    "foiRespondido": false,
+    "proximaPergunta": "A descrição que você colocou está muito pequena, isso pode diminuir o interesse na vaga, poderia descrever novamente?",
+    "exemploResposta": "Procuramos um Garçom amigável e atencioso para nossa equipe, focado em oferecer uma excelente experiência aos clientes."
 }
 
 Quando for tiver feitos todas as perguntas e tiver dados suficientes, em torno da 4 ou 5 pergunta, deve ser no seguinte formato como o processo final (emAndamento igual false):
