@@ -28,8 +28,8 @@ const CodeGPTPage = () => {
 
     const requestData: CodeGPTRequestData = {
       agentId: 'b3c75888-f64a-4615-80ab-361fd0fb0e34',
-      stream: true,
-      format: 'json',
+      stream: false,
+      format: 'text',
       messages: [{ content: question, role: "user" }],
     };
 

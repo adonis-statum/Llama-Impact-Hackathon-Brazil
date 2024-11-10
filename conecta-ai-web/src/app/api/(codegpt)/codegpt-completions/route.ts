@@ -1,6 +1,6 @@
 const CODEGPT_API_URL = process.env.CODEGPT_API_URL;
 const CODEGPT_API_KEY = process.env.CODEGPT_API_KEY;
-
+const CODEGPT_ORG_KEY = process.env.CODEGPT_ORG_KEY;
 
 export async function POST(request: Request) {
     try {
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
         method: 'POST',
         headers: {
             accept: 'application/json',
-            'CodeGPT-Org-Id': 'sk-4b3515b4-9e5b-4113-8158-3cd9cfb558a8',
+            'CodeGPT-Org-Id': `${CODEGPT_ORG_KEY}`,
             'content-type': 'application/json',
             Authorization: `Bearer ${CODEGPT_API_KEY}`,
         },
@@ -51,9 +51,8 @@ export async function POST(request: Request) {
       }
     } catch (error) {
       // Tratamento de erros gerais
-      console.log("aaaaaaa 500 quientão")
       return new Response(
-        JSON.stringify({ detail: 'Internal Server Error' }),
+        JSON.stringify({ detail: `Internal Server Error-  ${error}` }),
         { status: 500 }
       );
     }
