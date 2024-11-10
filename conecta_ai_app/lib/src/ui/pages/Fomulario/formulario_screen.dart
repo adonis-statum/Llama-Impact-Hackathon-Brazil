@@ -14,7 +14,8 @@ class _FormularioScreenState extends State<FormularioScreen> {
   String pergunta = ""; // Exibe a pergunta
   String hintText = ""; // Exibe o exemplo de resposta
   final TextEditingController _respostaController = TextEditingController();
-  List<Map<String, String>> perguntasRespostas = []; // Lista de perguntas e respostas para o messageContent
+  List<Map<String, String>> perguntasRespostas =
+      []; // Lista de perguntas e respostas para o messageContent
 
   @override
   void initState() {
@@ -55,7 +56,8 @@ class _FormularioScreenState extends State<FormularioScreen> {
 
       // Monta o novo messageContent
       final messageContent = jsonEncode({
-        "Contexto": "Abaixo temos as perguntas e respostas até agora. Qual será a próxima pergunta?",
+        "Contexto":
+            "Abaixo temos as perguntas e respostas até agora. Qual será a próxima pergunta?",
         "perguntasRespostas": perguntasRespostas,
       });
 
