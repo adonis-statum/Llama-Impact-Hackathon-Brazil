@@ -1,1 +1,166 @@
 Crie um formulário interativo e amigável para gerar um curriculo de uma pessoa. O objetivo é garantir que o processo seja intuitivo, acolhedor e eficiente para o usuário. Faça perguntas claras, mas com um toque humano, para que a pessoa se sinta à vontade para fornecer as informações necessárias. As perguntas devem abranger detalhes típicos de um curriculo, mas em um tom conversacional e amigável. As perguntas serão enviadas uma de cada vez, mas as perguntas anteriores e suas respostas sempre serão enviadas junto com a próxima pergunta, gerando um questionário mais preciso. Quando todas as perguntas tiverem sido feitas, retorne no resumo, uma descrição que seja composta por todas as perguntas, como um resumo geral das coisas importantes do candidato. Na ultima geração, também quero que seja gerado uma mensagem de confirmação validando o resumo, e se for retornado como uma nova pergunda que ela seja utilizada para efetuar a devida correção. Quero que você melhore e crie perguntas de modo que outras possam ser geradas automaticamente, como, por exemplo, perguntando pela descrição e gerando o título no resumo. Também poderia adicionar um exemplo de como responder a pergunta gerada. Seja criativo nas perguntas mas coerente nos exemplos de respostas.
+
+Quando for uma pergunta a ser retornada (emAndamento igual true), deve ser no seguinte formato:
+
+{
+    "emAndamento": true,
+    "proximaPergunta":"Qual é o título do trabalho que você está oferecendo?",
+    "exemploResposta": "Vaga para garçon"
+}
+
+Quando for tiver feitos todas as perguntas e tiver dados suficientes, em torno da 4 ou 5 pergunta, deve ser no seguinte formato como o processo final (emAndamento igual false):
+
+{
+    "emAndamento": false,
+    "mensagemFinal": "Obrigado por preencher! Seu currículo está pronto!",
+    "perguntas": [
+        {
+            "pergunta": "Qual é o seu nome completo?",
+            "exemploResposta": "João Silva Santos",
+            "resposta": "João Silva Santos"
+        },
+        {
+            "pergunta": "Qual é o seu e-mail de contato?",
+            "exemploResposta": "joao.silva@email.com",
+            "resposta": "joao.silva@email.com"
+        },
+        {
+            "pergunta": "Quais são os seus números de telefone para contato?",
+            "exemploResposta": "(11) 91234-5678 / (11) 3456-7890",
+            "resposta": "(11) 91234-5678"
+        },
+        {
+            "pergunta": "Onde você está localizado? (Cidade e Estado)",
+            "exemploResposta": "São Paulo, SP",
+            "resposta": "São Paulo, SP"
+        },
+        {
+            "pergunta": "Você possui algum perfil profissional online? (LinkedIn, Portfólio, GitHub, etc.)",
+            "exemploResposta": "linkedin.com/in/joaosilva",
+            "resposta": "linkedin.com/in/joaosilva"
+        },
+        {
+            "pergunta": "Quais são suas principais habilidades e competências?",
+            "exemploResposta": "Desenvolvimento Front-End (HTML, CSS, JavaScript), Comunicação Interpessoal, Trabalho em Equipe.",
+            "resposta": "Desenvolvimento Front-End (HTML, CSS, JavaScript), Comunicação Interpessoal, Trabalho em Equipe."
+        },
+        {
+            "pergunta": "Qual foi o seu último cargo? E onde você trabalhou?",
+            "exemploResposta": "Desenvolvedor Front-End na ABC Tecnologia.",
+            "resposta": "Desenvolvedor Front-End na ABC Tecnologia."
+        },
+        {
+            "pergunta": "Quais foram suas principais responsabilidades e realizações nesse cargo?",
+            "exemploResposta": "Desenvolvi e mantive aplicações web responsivas, melhorei a performance de sites existentes, colaborei com designers para implementar novos recursos.",
+            "resposta": "Desenvolvi e implementei soluções de front-end, melhorei a performance do site, trabalhei de perto com a equipe de design para aprimorar a interface."
+        },
+        {
+            "pergunta": "Onde você fez sua formação acadêmica? (Nome da instituição)",
+            "exemploResposta": "Universidade de São Paulo (USP)",
+            "resposta": "Universidade de São Paulo (USP)"
+        },
+        {
+            "pergunta": "Qual foi o seu grau de formação ou curso concluído?",
+            "exemploResposta": "Bacharelado em Ciência da Computação",
+            "resposta": "Bacharelado em Ciência da Computação"
+        },
+        {
+            "pergunta": "Você possui alguma certificação ou curso adicional relevante para sua área?",
+            "exemploResposta": "Certificado em Desenvolvimento Web - Udemy, Certificação em React - Coursera.",
+            "resposta": "Certificado em Desenvolvimento Web - Udemy, Certificação em React - Coursera."
+        },
+        {
+            "pergunta": "Quais idiomas você fala e qual seu nível de proficiência?",
+            "exemploResposta": "Inglês avançado, Espanhol intermediário.",
+            "resposta": "Inglês avançado, Espanhol intermediário."
+        },
+        {
+            "pergunta": "Você tem alguma experiência de voluntariado ou atividades extras?",
+            "exemploResposta": "Voluntário em eventos de tecnologia para jovens.",
+            "resposta": "Voluntário em eventos de tecnologia para jovens."
+        }
+    ],
+    "resumo": "Nome: João Silva Santos\nE-mail: joao.silva@email.com\nTelefone: (11) 91234-5678\nLocalização: São Paulo, SP\nPerfil profissional: linkedin.com/in/joaosilva\nHabilidades: Desenvolvimento Front-End (HTML, CSS, JavaScript), Comunicação Interpessoal, Trabalho em Equipe\nExperiência Profissional:\n- Cargo: Desenvolvedor Front-End\n  - Empresa: ABC Tecnologia\n  - Responsabilidades: Desenvolvi e implementei soluções de front-end, melhorei a performance do site, trabalhei de perto com a equipe de design para aprimorar a interface.\nEducação:\n- Instituição: Universidade de São Paulo (USP)\n- Formação: Bacharelado em Ciência da Computação\nCertificações:\n- Certificado em Desenvolvimento Web - Udemy\n- Certificação em React - Coursera\nIdiomas:\n- Inglês avançado\n- Espanhol intermediário\nAtividades extras:\n- Voluntário em eventos de tecnologia para jovens.",
+    "mensagemConfirmacao": "Revise os dados fornecidos e confirme se todas as informações estão corretas. Seu currículo está pronto para ser utilizado!"
+}
+
+Todos os promps enviados para você devem seguir o json do exemplo abaixo:
+
+{
+    "Contexto": "Abaixo temos as perguntas e respostas até agora. Qual será a próxima pergunta?",
+    "perguntasRespostas": [
+        {
+            "pergunta": "Qual é o seu nome completo?",
+            "exemploResposta": "João da Silva",
+            "resposta": "João da Silva"
+        },
+        {
+            "pergunta": "Qual é o seu título profissional? Como você se descreve no mercado de trabalho?",
+            "exemploResposta": "Padeiro",
+            "resposta": "Padeiro"
+        },
+        {
+            "pergunta": "Onde você trabalha atualmente ou qual foi seu último emprego?",
+            "exemploResposta": "Trabalhei como padeiro na Padaria Pão Quente por 3 anos.",
+            "resposta": "Atualmente trabalho como padeiro na Padaria Delícia de Pão."
+        },
+        {
+            "pergunta": "Quais foram as suas principais responsabilidades no último emprego?",
+            "exemploResposta": "Produção de pães, bolos e outros produtos de padaria, controle de estoque de ingredientes e limpeza da área de trabalho.",
+            "resposta": "Responsável pela produção de pães, bolos, tortas e outros produtos. Também cuidava da organização do estoque e limpeza do ambiente de trabalho."
+        },
+        {
+            "pergunta": "Você possui experiência em outras padarias ou cozinhas? Se sim, descreva brevemente.",
+            "exemploResposta": "Trabalhei como padeiro em uma pequena padaria local durante 2 anos.",
+            "resposta": "Trabalhei por 2 anos na Padaria Bela Pão, onde aprendi a fazer pães artesanais e aperfeiçoei minhas técnicas de panificação."
+        },
+        {
+            "pergunta": "Você possui alguma qualificação ou treinamento relevante para a vaga? Como cursos ou certificações?",
+            "exemploResposta": "Curso de Panificação e Confeitaria pelo SENAI.",
+            "resposta": "Curso de Panificação e Confeitaria pelo SENAI e Certificação em Higiene e Segurança Alimentar."
+        },
+        {
+            "pergunta": "Quais são suas habilidades mais importantes como padeiro?",
+            "exemploResposta": "Habilidade em seguir receitas, boa organização e agilidade na produção de pães e bolos.",
+            "resposta": "Habilidade em trabalhar com massas, seguir receitas de pães artesanais e industriais, além de ser muito organizado e ágil no trabalho."
+        },
+        {
+            "pergunta": "Você tem interesse ou experiência em fazer pães especiais (como pães sem glúten, pães veganos, etc)?",
+            "exemploResposta": "Sim, tenho experiência com pães sem glúten e veganos.",
+            "resposta": "Sim, tenho experiência na produção de pães sem glúten e veganos, além de outros pães diferenciados, como pães integrais e multigrãos."
+        },
+        {
+            "pergunta": "Quais são suas expectativas salariais?",
+            "exemploResposta": "R$1.200 a R$1.500, conforme a experiência.",
+            "resposta": "Minha expectativa salarial é entre R$1.200 e R$1.500, de acordo com a função e a empresa."
+        },
+        {
+            "pergunta": "Quais benefícios você espera em um novo emprego?",
+            "exemploResposta": "Vale-transporte, vale-refeição e participação nos lucros.",
+            "resposta": "Espero receber vale-transporte, vale-refeição e, se possível, um plano de saúde."
+        },
+        {
+            "pergunta": "Quais são suas motivações para mudar de emprego?",
+            "exemploResposta": "Busco uma oportunidade de crescimento e um ambiente de trabalho mais estável.",
+            "resposta": "Estou buscando novas oportunidades de aprendizado e crescimento profissional na área de panificação."
+        },
+        {
+            "pergunta": "Quais são suas referências profissionais? Podemos contatar seu último chefe ou supervisor?",
+            "exemploResposta": "Sim, posso fornecer o contato de meu último supervisor na Padaria Delícia de Pão.",
+            "resposta": "Sim, posso fornecer como referência o meu chefe direto na Padaria Pão Quente, Sr. Carlos Silva."
+        }
+    ]
+}
+
+Aqui estão algumas opções para as perguntas:
+Informações Pessoais;
+Objetivo Profissional;
+Resumo Profissional;
+Experiência Profissional;
+Habilidades Técnicas;
+Habilidades Interpessoais;
+Idiomas;
+Projetos e Realizações;
+Referências;
+Disponibilidade;
+Expectativas Salariais;
