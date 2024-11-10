@@ -8,18 +8,24 @@
 
 # 🧩 Funcionalidades
 
-## 🛠 Tecnologias Utilizadas
+- **Geração de currículos**: Com a Llama AI 
+- **Criação de vaga de emprego**:
+- **Conexão de vagas com currículos**:
+- **Início do processo seletivo**:
 
-- **Tecnologia 1**
-- **Tecnologia 2**
-- **Tecnologia 3**
+## 🛠 IA's Utilizadas
+
+- **Code GPT**
+- **Groq Llama 3.2 90B**
+- **Meta Llama 3.1 405B**
+
 
 ## 📂 Estrutura do Projeto
 
 ```plaintext
-├── backend        # Backend (API) - 
-├── frontend       # Frontend Web - 
-└── mobile         # Aplicação Mobile - 
+├── frontend           # Frontend web - Next.js 
+├── mobile             # Aplicação mobile - Flutter(Dart)
+└── banco de dados     # PostgreSQL hospedado no ambiente OCI
 ```
 
 ## 💻 Telas da Aplicação Web
