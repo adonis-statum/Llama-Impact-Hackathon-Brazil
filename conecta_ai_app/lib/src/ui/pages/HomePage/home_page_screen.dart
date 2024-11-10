@@ -87,7 +87,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       ),
                     ),
                     child: const Text(
-                      'Criar Currículo',
+                      'Continuar',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

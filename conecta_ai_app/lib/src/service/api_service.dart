@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 
 class ApiService {
   final Dio _dio = Dio();
 
   ApiService() {
-    // Configura o Dio com os headers padrão
     _dio.options.headers = {
       'accept': 'application/json',
       'content-type': 'application/json',
@@ -28,6 +28,8 @@ class ApiService {
       "stream": true
     };
 
+    final StringBuffer completeContent = StringBuffer();
+
     try {
       final response = await _dio.post(
         url,
@@ -35,30 +37,31 @@ class ApiService {
         options: Options(responseType: ResponseType.stream),
       );
 
-      // Processa o stream de dados
+      // Processa o stream de dados e acumula o conteúdo em completeContent
       response.data.stream.listen((chunk) {
-        // Converte o chunk de bytes para string
         String data = utf8.decode(chunk);
 
         // Divide o stream em linhas separadas por "data: "
         data.split("data: ").forEach((element) {
           if (element.isNotEmpty) {
             try {
-              // Converte cada linha em JSON e extrai o conteúdo
               final jsonData = json.decode(element);
               final content = jsonData['choices']?[0]['delta']?['content'];
+
               if (content != null) {
-                // Chama o callback para processar cada conteúdo recebido
-                onDataReceived(content);
+                completeContent.write(content);
               }
             } catch (e) {
-              print("Erro ao processar o chunk: $e");
+              log("Erro ao processar o fragmento JSON: $e");
             }
           }
         });
+      }, onDone: () {
+        // Chama o callback apenas quando o stream é concluído
+        onDataReceived(completeContent.toString());
       });
     } catch (e) {
-      print('Erro na requisição: $e');
+      log('Erro na requisição: $e');
     }
   }
 }
