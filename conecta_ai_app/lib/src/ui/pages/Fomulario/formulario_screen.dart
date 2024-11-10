@@ -14,8 +14,8 @@ class _FormularioScreenState extends State<FormularioScreen> {
   String pergunta = ""; // Exibe a pergunta
   String hintText = ""; // Exibe o exemplo de resposta
   final TextEditingController _respostaController = TextEditingController();
-  List<Map<String, String>> perguntasRespostas =
-      []; // Lista de perguntas e respostas para o messageContent
+  List<Map<String, String>> perguntasRespostas = []; // Lista de perguntas e respostas para o messageContent
+  bool isLoading = true; // Controla o estado de carregamento
 
   @override
   void initState() {
@@ -24,8 +24,12 @@ class _FormularioScreenState extends State<FormularioScreen> {
   }
 
   // Função para iniciar a requisição e processar os dados recebidos
-  void generateResume(String messageContent) {
-    _apiService.sendChatCompletionRequest(messageContent, (String content) {
+  Future<void> generateResume(String messageContent) async {
+    setState(() {
+      isLoading = true; // Inicia o estado de carregamento
+    });
+
+    await _apiService.sendChatCompletionRequest(messageContent, (String content) {
       final parts = content.split('|');
       if (parts.length > 1) {
         setState(() {
@@ -38,6 +42,8 @@ class _FormularioScreenState extends State<FormularioScreen> {
             hintText = jsonData['exemploResposta'] ?? "";
           } catch (e) {
             print("Erro ao processar JSON: $e");
+          } finally {
+            isLoading = false; // Finaliza o carregamento
           }
         });
       }
@@ -75,25 +81,27 @@ class _FormularioScreenState extends State<FormularioScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(pergunta, style: const TextStyle(fontSize: 18)),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _respostaController,
-              decoration: InputDecoration(
-                hintText: hintText,
-                border: OutlineInputBorder(),
+        child: isLoading
+            ? const Center(child: CircularProgressIndicator()) // Exibe um loader enquanto carrega
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(pergunta, style: const TextStyle(fontSize: 18)),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _respostaController,
+                    decoration: InputDecoration(
+                      hintText: hintText,
+                      border: const OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: proximaPergunta,
+                    child: const Text('Próximo'),
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: proximaPergunta,
-              child: const Text('Próximo'),
-            ),
-          ],
-        ),
       ),
     );
   }
