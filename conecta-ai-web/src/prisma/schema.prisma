@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -8,17 +8,37 @@ generator client {
 }
 
 model Vaga {
-  id            String          @id @default(cuid())
-  nome          String
-  curriculos    Curriculo[]     @relation("VagaCurriculo")
-  VagaCurriculo VagaCurriculo[]
+  id               String          @id @default(cuid())
+  jobTitle         String
+  company          Company         @relation(fields: [companyId], references: [id])
+  companyId        String
+  jobDescription   String
+  employmentType   String
+  experienceLevel  String
+  salaryRange      SalaryRange     @relation(fields: [salaryRangeId], references: [id])
+  salaryRangeId    String
+  responsibilities String[]
+  requirement      Requirement     @relation(fields: [requirementId], references: [id])
+  requirementId    String
+  benefits         String[]
+  postedDate       String
+  closingDate      String
+  curriculos       Curriculo[]     @relation("VagaCurriculo")
+  VagaCurriculo    VagaCurriculo[]
 }
 
 model Curriculo {
-  id            String          @id @default(cuid())
-  nome          String
-  vagas         Vaga[]          @relation("VagaCurriculo")
-  VagaCurriculo VagaCurriculo[]
+  id                    String              @id @default(cuid())
+  personalInformation   PersonalInformation @relation(fields: [personalInformationId], references: [id])
+  personalInformationId String
+  summary               String
+  experiences           Experience[]
+  educations            Education[]
+  skills                String[]
+  languages             Language[]
+  eferences             Reference[]
+  vagas                 Vaga[]              @relation("VagaCurriculo")
+  VagaCurriculo         VagaCurriculo[]
 }
 
 model VagaCurriculo {
@@ -27,4 +47,105 @@ model VagaCurriculo {
   curriculoId String
   vaga        Vaga      @relation(fields: [vagaId], references: [id])
   curriculo   Curriculo @relation(fields: [curriculoId], references: [id])
+}
+
+model Company {
+  id          String   @id @default(cuid())
+  location    Location @relation(fields: [locationId], references: [id])
+  locationId  String
+  website     String
+  description String
+  vagas       Vaga[]
+}
+
+model Location {
+  id                   String                @id @default(cuid())
+  street               String
+  city                 String
+  state                String
+  zipCode              String
+  country              String
+  companys             Company[]
+  personalInformations PersonalInformation[]
+}
+
+model SalaryRange {
+  id        String @id @default(cuid())
+  min       String
+  max       String
+  currency  String
+  frequency String
+  vagas     Vaga[]
+}
+
+model Requirement {
+  id               String                    @id @default(cuid())
+  minimumEducation String
+  experienceYears  String
+  skills           String[]
+  skillsId         String
+  languages        LanguagesOnRequirements[]
+  vagas            Vaga[]
+}
+
+model Language {
+  id           String                    @id @default(cuid())
+  language     String
+  proficiency  String
+  curriculo    Curriculo                 @relation(fields: [curriculoId], references: [id])
+  curriculoId  String
+  Requirements LanguagesOnRequirements[]
+}
+
+model LanguagesOnRequirements {
+  language      Language    @relation(fields: [languageId], references: [id])
+  languageId    String
+  requirement   Requirement @relation(fields: [requirementId], references: [id])
+  requirementId String
+
+  @@id([requirementId, languageId])
+}
+
+model PersonalInformation {
+  id         String      @id @default(cuid())
+  name       String
+  email      String
+  phone      String
+  location   Location    @relation(fields: [locationId], references: [id])
+  locationId String
+  Curriculos Curriculo[]
+}
+
+model Experience {
+  id               String    @id @default(cuid())
+  jobTitle         String
+  company          String
+  location         String
+  startDate        String
+  endDate          String
+  responsibilities String[]
+  curriculo        Curriculo @relation(fields: [curriculoId], references: [id])
+  curriculoId      String
+}
+
+model Education {
+  id          String    @id @default(cuid())
+  degree      String
+  institution String
+  location    String
+  startDate   String
+  endDate     String
+  curriculo   Curriculo @relation(fields: [curriculoId], references: [id])
+  curriculoId String
+}
+
+model Reference {
+  id           String    @id @default(cuid())
+  name         String
+  relationship String
+  company      String
+  email        String
+  phone        String
+  curriculo    Curriculo @relation(fields: [curriculoId], references: [id])
+  curriculoId  String
 }
