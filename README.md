@@ -1,4 +1,6 @@
-# Llama-Impact-Hackathon-Brazil: Statum team
+# Llama-Impact-Hackathon-Brazil
+
+# Team name: Statum
 
 # Conecta.ai
 
