@@ -11,47 +11,58 @@ class FormularioScreen extends StatefulWidget {
 
 class _FormularioScreenState extends State<FormularioScreen> {
   final ApiService _apiService = ApiService();
-  String messageContent = ""; // Variável para enviar o conteúdo inicial
-  String pergunta = ""; // Variável para a pergunta extraída antes do "|"
-  String hintText = ""; // Variável para o exemplo de resposta
-
-  final TextEditingController _messageController = TextEditingController();
+  String pergunta = ""; // Exibe a pergunta
+  String hintText = ""; // Exibe o exemplo de resposta
+  final TextEditingController _respostaController = TextEditingController();
+  List<Map<String, String>> perguntasRespostas = []; // Lista de perguntas e respostas para o messageContent
 
   @override
   void initState() {
     super.initState();
+    generateResume(); // Inicia a primeira requisição ao carregar a tela
   }
 
   // Função para iniciar a requisição e processar os dados recebidos
   void generateResume() {
-    setState(() {
-      pergunta = ""; // Limpa a pergunta
-      hintText = ""; // Limpa o hintText
-      messageContent = _messageController.text; // Define o conteúdo da mensagem
-    });
-
-    _apiService.sendChatCompletionRequest(messageContent, (String content) {
-      // Processa o conteúdo para atualizar pergunta e JSON do retorno
+    _apiService.sendChatCompletionRequest("Iniciar", (String content) {
       final parts = content.split('|');
       if (parts.length > 1) {
-        pergunta = parts[0].trim(); // Pega a parte à esquerda do "|"
-        String jsonPart = parts[1].trim(); // Pega a parte JSON
+        setState(() {
+          pergunta = parts[0].trim(); // Pega a parte antes do "|"
+          String jsonPart = parts[1].trim(); // Pega a parte JSON
 
-        try {
-          // Converte a string JSON em um Map para extrair as informações
-          final Map<String, dynamic> jsonData = json.decode(jsonPart);
-          final proximaPergunta = jsonData['proximaPergunta'] ?? "";
-          final exemploResposta = jsonData['exemploResposta'] ?? "";
-
-          setState(() {
-            pergunta = proximaPergunta;
-            hintText = exemploResposta;
-          });
-        } catch (e) {
-          print("Erro ao processar JSON: $e");
-        }
+          try {
+            final Map<String, dynamic> jsonData = json.decode(jsonPart);
+            pergunta = jsonData['proximaPergunta'] ?? pergunta;
+            hintText = jsonData['exemploResposta'] ?? "";
+          } catch (e) {
+            print("Erro ao processar JSON: $e");
+          }
+        });
       }
     });
+  }
+
+  // Função para avançar para a próxima pergunta com base na resposta atual
+  void proximaPergunta() {
+    if (_respostaController.text.isNotEmpty) {
+      // Adiciona a pergunta atual e a resposta preenchida ao modelo
+      perguntasRespostas.add({
+        "pergunta": pergunta,
+        "exemploResposta": hintText,
+        "resposta": _respostaController.text,
+      });
+
+      // Monta o novo messageContent
+      final messageContent = jsonEncode({
+        "Contexto": "Abaixo temos as perguntas e respostas até agora. Qual será a próxima pergunta?",
+        "perguntasRespostas": perguntasRespostas,
+      });
+
+      // Limpa o campo de resposta e realiza a próxima requisição com o novo contexto
+      _respostaController.clear();
+      generateResume();
+    }
   }
 
   @override
@@ -63,28 +74,40 @@ class _FormularioScreenState extends State<FormularioScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              controller: _messageController,
-              decoration: const InputDecoration(
-                labelText: 'Digite o conteúdo da mensagem',
-                border: OutlineInputBorder(),
+            if (pergunta.isNotEmpty)
+              Text(
+                pergunta,
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: generateResume,
-              child: const Text("Gerar Currículo"),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              pergunta,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
             const SizedBox(height: 10),
-            Text(
-              hintText,
-              style: const TextStyle(fontSize: 16, color: Colors.grey),
+            if (hintText.isNotEmpty)
+              TextField(
+                controller: _respostaController,
+                decoration: InputDecoration(
+                  labelText: 'Sua Resposta',
+                  hintText: hintText,
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+            const SizedBox(height: 20),
+            if (hintText.isNotEmpty)
+              ElevatedButton(
+                onPressed: proximaPergunta,
+                child: const Text("Próximo"),
+              ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Text(
+                  jsonEncode({
+                    "Contexto": "Abaixo temos as perguntas e respostas até agora. Qual será a próxima pergunta?",
+                    "perguntasRespostas": perguntasRespostas,
+                  }),
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ),
             ),
           ],
         ),
@@ -94,7 +117,7 @@ class _FormularioScreenState extends State<FormularioScreen> {
 
   @override
   void dispose() {
-    _messageController.dispose();
+    _respostaController.dispose();
     super.dispose();
   }
 }
